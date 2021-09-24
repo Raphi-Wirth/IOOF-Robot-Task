@@ -1,12 +1,13 @@
 import java.util.Scanner;
-import unittest;
 
 class Board{
+    //Define size of board
     public static final int maxX = 5;
     public static final int maxY = 5;
 }
 
 class Input{
+    //Define all player moves and cardinal directions
     enum CardinalDirections {
         NORTH,
         SOUTH,
@@ -24,6 +25,7 @@ class Input{
 
     InputType inputType;
     String[] placement;
+    //Parse string
     public Input(String userInput){
         String[] command = userInput.split(" ");
         try{
@@ -48,7 +50,7 @@ class Robot{
         y = Integer.parseInt(input.placement[1]);
         direction = Input.CardinalDirections.valueOf(input.placement[2]);
     }
-
+    //All moves
     public void Report(){
         String currentX = Integer.toString(x);
         String currentY = Integer.toString(y);
@@ -152,12 +154,15 @@ class Main{
     static Robot robot;
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
+        //Continue looping until user exits out
         while(true){
             String input = scanner.nextLine();
             Input currentInput = new Input(input);
+            //Get another line of user Input if it is the incorrect format
             if(currentInput.inputType == Input.InputType.ERROR){
                 continue;
             }
+            //Checks that if there is no robot on the board yet, that the first move must be a PLACE
             if(robot == null && currentInput.inputType == Input.InputType.PLACE){
                 if(Robot.CheckInBounds(Integer.parseInt(currentInput.placement[0]),Integer.parseInt(currentInput.placement[1]))){
                     robot = new Robot(currentInput);
